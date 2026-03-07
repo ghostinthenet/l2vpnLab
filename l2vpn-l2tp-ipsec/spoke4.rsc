@@ -1,0 +1,185 @@
+# Establish configuration variables
+:local connectTo "hub.lab.tishco.ca"
+:local systemId [/system/identity/get name]
+
+# Name static interfaces
+/interface ethernet
+set [ find default-name=ether1 ] name=interfaceToDocker
+set [ find default-name=ether2 ] name=interfaceToIsp
+set [ find default-name=ether3 ] name=interfaceToSwitch
+
+# Add L2TPv3 pseudowire interface as interfaceToHub
+/interface l2tp-ether
+add connect-to="$connectTo" disabled=no l2tp-proto-version=l2tpv3-ip name=interfaceToHub
+
+# Use ISP router's DNS server for hub resolution
+/ip dns
+set servers=203.0.113.128
+
+# Change DHCP client interface to interfaceHub
+/ip dhcp-client
+set 0 add-default-route=no use-peer-dns=no use-peer-ntp=no interface=interfaceToHub
+
+# Add static IPv4 addresses
+/ip address
+add interface=interfaceToIsp address="100.64.4.1/31"
+
+# Add default route
+/ip route
+add gateway="100.64.4.0"
+
+# Disable unnecessary services
+/ip service
+set ftp disabled=yes
+set telnet disabled=yes
+set www disabled=yes
+set api disabled=yes
+set api-ssl disabled=yes
+
+# Enable RoMON
+/tool romon
+set enabled=yes
+
+# Import certificate authority certificate
+/file
+add name=ca.crt type=file contents="-----BEGIN CERTIFICATE-----\n
+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\n
+-----END CERTIFICATE-----"
+
+# Import spoke certificate
+add name=spokes.crt type=file contents="-----BEGIN CERTIFICATE-----\n
+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\n
+COwSWoQ7vuJnHzgxa/WeoCxjxQfYWw==\n
+-----END CERTIFICATE-----"
+
+# Import spoke private key
+add name=spokes.key type=file contents="-----BEGIN PRIVATE KEY-----\n
+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\n
+OXDBE+/2X2GdxHYqJnuUqmqxJdlkVN0=\n
+-----END PRIVATE KEY-----"
+
+# Import certificates and keys
+/certificate
+import
+
+# Rename certificates and keys according to common name (CN)
+:foreach counter=entry in=[find] do={set $entry name=[get $entry common-name]}
+
+# Add IKEv2/IPsec peer for tunnel encryption
+/ip ipsec peer
+add address="$connectTo" exchange-mode=ike2 name=ipsecPeerHub
+
+# Configure hub connection to use EAP-TTLS for identity and authentication
+/ip ipsec identity
+add auth-method=eap eap-methods=eap-ttls certificate=spokes peer=ipsecPeerHub username=$systemId password=$systemId
+
+# Add IPsec policy for L2TP-IP in transport mode
+/ip ipsec policy
+set 0 disabled=yes
+add peer=ipsecPeerHub protocol=l2tp tunnel=no

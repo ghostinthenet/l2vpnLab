@@ -1,0 +1,35 @@
+name: l2vpn-l2tp-ipsec
+
+topology:
+  defaults:
+    kind: mikrotik_ros
+    image: vrnetlab/mikrotik_routeros:long-term
+  nodes:
+    br0:
+      kind: bridge
+    hub:
+      image: vrnetlab/mikrotik_routeros:long-term-full
+      startup-config: hub.rsc
+    isp:
+      startup-config: isp.rsc
+    spoke1:
+      startup-config: spoke1.rsc
+    spoke2:
+      startup-config: spoke2.rsc
+    spoke3:
+      startup-config: spoke3.rsc
+    spoke4:
+      startup-config: spoke4.rsc
+    client:
+      kind: linux
+      image: "winbox:latest"
+      exec:
+        - dhcpcd eth1
+
+  links:
+    - endpoints: ["isp:ether2", "hub:ether2"]
+    - endpoints: ["isp:ether3", "spoke1:ether2"]
+    - endpoints: ["isp:ether4", "spoke2:ether2"]
+    - endpoints: ["isp:ether5", "spoke3:ether2"]
+    - endpoints: ["isp:ether6", "spoke4:ether2"]
+    - endpoints: ["hub:ether3", "client:eth1"]
