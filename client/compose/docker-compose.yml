@@ -1,0 +1,13 @@
+services:
+  winbox:
+    image: winbox:${CT_VERSION}
+    build:
+      context: .
+      args:
+        CT_USER: ${CT_USER}
+        CT_PASSWD: ${CT_PASSWD}
+    container_name: winbox
+    tty: true
+    stdin_open: true
+    ports:
+      - "22:22"
