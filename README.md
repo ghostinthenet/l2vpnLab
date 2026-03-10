@@ -50,3 +50,30 @@ ssh -J <em>containerlab</em> -X $CT_USER@<em>containername</em>
 Start remote WinBox with the provided shell script.
 
 ~$ ./winbox.sh
+
+## l2vpn-certs
+Zsh scripts to generate new certificates, keys and RouterOS import scripts for IPsec transports and EAP-TTLS authentication. Pre-generated certificates, keys, and import scripts for the lab have also been included. 
+
+Prerequisites:
+
+* openssl, sed
+
+Generate the CA certificate and key with ca-generate.sh:
+
+./ca-generate.sh <em>ca-name</em>
+
+Generate the hub and spoke certificates with generate.sh:
+
+./generate <em>ca-name</em> hub
+./generate <em>ca-name</em> spokes
+
+Export the certificates into RouterOS import scripts:
+
+./routeros-import.sh <em>ca</em> hub
+./routeros-import.sh <em>ca</em> spokes
+
+Once created, the scripts can be copied to the router and imported:
+
+/import file-name=<em>import-file</em>
+
+These can also be added to netinstall scripts to ensure that routers have what's necessary to connect to the management VPN in the event of a reset.
