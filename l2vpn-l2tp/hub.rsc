@@ -4,10 +4,6 @@ set [ find default-name=ether1 ] name=interfaceToDocker
 set [ find default-name=ether2 ] name=interfaceToIsp
 set [ find default-name=ether3 ] name=interfaceToClient
 
-# Enable neighbour discovery on the tunnels
-/ip neighbor discovery-settings
-set discover-interface-list=dynamic
-
 # Add DNS server for spoke resolution in the tunnels
 /ip dns
 set allow-remote-requests=yes
@@ -35,13 +31,13 @@ add address-pool=ipPoolBridge interface=interfaceBridge name=ipDhcpServerBridge
 /ip dhcp-server network
 add address=172.31.254.0/23 dns-server=172.31.254.1
 
-# Configure the L2TPv3 pseudowire server and assign clients to the bridge inteface list
+# Configure the L2TPv3 pseudowire server
 /interface l2tp-server server
-set accept-proto-version=l2tpv3 accept-pseudowire-type=ether enabled=yes one-session-per-host=yes l2tpv3-ether-interface-list=interfaceListSpokes
+set accept-proto-version=l2tpv3 accept-pseudowire-type=ether enabled=yes one-session-per-host=yes
 
 # Receive neighbour discovery from the spokes, but do not advertise to them
 /ip neighbor discovery-settings
-set discover-interface-list=dynamic mode=rx-only
+set mode=rx-only
 
 # Remove CHR DHCP client
 /ip dhcp-client

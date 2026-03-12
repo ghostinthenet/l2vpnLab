@@ -4,10 +4,6 @@ set [ find default-name=ether1 ] name=interfaceToDocker
 set [ find default-name=ether2 ] name=interfaceToIsp
 set [ find default-name=ether3 ] name=interfaceToClient
 
-# Enable neighbour discovery on the tunnels
-/ip neighbor discovery-settings
-set discover-interface-list=dynamic
-
 # Add DNS server for spoke resolution in the tunnels
 /ip dns
 set allow-remote-requests=yes
@@ -41,7 +37,7 @@ set accept-proto-version=l2tpv3 accept-pseudowire-type=ether enabled=yes one-ses
 
 # Receive neighbour discovery from the spokes, but do not advertise to them
 /ip neighbor discovery-settings
-set discover-interface-list=dynamic mode=rx-only
+set mode=rx-only
 
 # Remove CHR DHCP client
 /ip dhcp-client
