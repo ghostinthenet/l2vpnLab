@@ -51,7 +51,7 @@ Start remote WinBox with the provided shell script.
 
 ~$ ./winbox.sh
 
-## l2vpn-certs
+# l2vpn-certs
 Zsh scripts to generate new certificates, keys and RouterOS import scripts for IPsec transports and EAP-TTLS authentication. Pre-generated certificates, keys, and import scripts for the lab have also been included. 
 
 Prerequisites:
