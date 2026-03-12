@@ -34,7 +34,9 @@ Base RouterOS images and full (including all optional packages) are used in thes
 ## client
 Creates Debian 13 based ContainerLab Docker image for WinBox.
 
-Run with ./build.sh to create winbox:<em>latest_version</em> and tag it as winbox:latest.
+Run the build script to create winbox:<em>latest_version</em> and tag it as winbox:latest.
+
+<pre>./build.sh</pre>
 
 Prerequisites:
 * curl, unzip
@@ -45,13 +47,13 @@ Variables:
 
 Once running, it can be used from any machine with an X11 server:
 
-ssh -J <em>containerlab</em> -X $CT_USER@<em>containername</em>
+<pre>ssh -J <em>containerlab</em> -X <em>$CT_USER</em>@<em>containername</em></pre>
 
 Start remote WinBox with the provided shell script.
 
-~$ ./winbox.sh
+<pre>./winbox.sh</pre>
 
-## l2vpn-certs
+# l2vpn-certs
 Zsh scripts to generate new certificates, keys and RouterOS import scripts for IPsec transports and EAP-TTLS authentication. Pre-generated certificates, keys, and import scripts for the lab have also been included. 
 
 Prerequisites:
@@ -60,20 +62,20 @@ Prerequisites:
 
 Generate the CA certificate and key with ca-generate.sh:
 
-./ca-generate.sh <em>ca-name</em>
+<pre>./ca-generate.sh <em>ca-name</em></pre>
 
 Generate the hub and spoke certificates with generate.sh:
 
-./generate <em>ca-name</em> hub
-./generate <em>ca-name</em> spokes
+<pre>./generate <em>ca-name</em> hub
+./generate <em>ca-name</em> spokes</pre>
 
 Export the certificates into RouterOS import scripts:
 
-./routeros-import.sh <em>ca</em> hub
-./routeros-import.sh <em>ca</em> spokes
+<pre>./routeros-import.sh <em>ca</em> hub
+./routeros-import.sh <em>ca</em> spokes</pre>
 
 Once created, the scripts can be copied to the router and imported:
 
-/import file-name=<em>import-file</em>
+<pre>/import file-name=<em>import-file</em></pre>
 
 These can also be added to netinstall scripts to ensure that routers have what's necessary to connect to the management VPN in the event of a reset.
