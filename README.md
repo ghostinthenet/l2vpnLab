@@ -64,10 +64,9 @@ Generate the CA certificate and key with ca-generate.sh:
 
 <pre>./ca-generate.sh <em>ca-name</em></pre>
 
-Generate the hub and spoke certificates with generate.sh:
+Generate the hub certificate with generate.sh:
 
-<pre>./generate <em>ca-name</em> hub
-./generate <em>ca-name</em> spokes</pre>
+<pre>./generate <em>ca-name</em> hub</pre>
 
 Export the certificates into RouterOS import scripts:
 
